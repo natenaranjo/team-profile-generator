@@ -1,7 +1,6 @@
 // Node modules
 const fs = require('fs');
 const inquirer = require ('inquirer');
-const path = require('path');
 
 // Linking to html page to be created.
 const generateHTML = require('./src/generateHTML');
@@ -19,9 +18,9 @@ const teamMembers = [];
 const managerQuestions = [
     {
         type: 'input',
-        message: 'Team Manager Name:',
+        message: 'Manager Name:',
         name: 'name',
-        validate: (value) => { if(value){return true} else {return ' Enter the team member name to continue'}},
+        validate: (value) => { if(value){return true} else {return ' Enter the Manager name to continue'}},
     },
     {
         type: 'input',
@@ -39,7 +38,7 @@ const managerQuestions = [
         type: 'input',
         message: 'Office Number',
         name: 'number',
-        validate: (value) => { if(value){return true} else {return ' Enter a title to continue'}},
+        validate: (value) => { if(value){return true} else {return ' Enter the office number to continue'}},
     },
 ];
 
@@ -98,7 +97,6 @@ const internQuestions = [
 ];
 
 function App() {
-    function createManager() {
         console.log("Please enter your team details in the app.");
         inquirer.prompt(managerQuestions)
         .then((answers) => {
@@ -106,7 +104,6 @@ function App() {
             teamMembers.push(manager);
             next();
         });
-    };
 };
 
 const next = () => {
@@ -133,10 +130,28 @@ const next = () => {
                 teamMembers.push(intern);
                 next();
             }) 
-        } else {
+        } else if (data.select === 'End Setup') {
             console.log(teamMembers);
+            teamMembers => {
+                return generateHTML(teamMembers);
+            }
+            pageHTML => {
+                return writeFile(pageHTML);
+            }     
         };
     });
 };
+
+let writeFile = data => {
+    fs.writeFile('./dist/index.html', data, err => {
+        if (err) {
+            console.log(err);
+            return;
+        } else {
+            console.log("Your team profile page is being built now. See dist folder for the index file.");
+        }
+    })
+}
+
 
 App();
