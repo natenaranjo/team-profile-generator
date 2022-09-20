@@ -1,50 +1,55 @@
+const Employee = require("../lib/Employee");
+
 const generateManager = function (manager) {
-    return 
+    const x =
     `
         <div class="w-96 h-96 bg-gray-100 rounded-xl shadow-xl flex flex-col">
             <div class="w-full h-24 bg-gray-800 rounded-lg flex flex-col justify-center align-center">
-                <h3 class="text-4xl text-white text-center">Kim</h3>
+                <h3 class="text-4xl text-white text-center">${manager.name}</h3>
             </div>
             <div class="w-full flex flex-col justify-center align-center py-10">
-                    <p class="text-2xl px-4 py-4">E-ID: <span class="text-red-600"></span></p>
-                    <p class="text-2xl px-4 py-4">Email: <a href="mailto:email@example.com" class="text-red-600">Send Email</a></p>
-                    <p class="text-2xl px-4 py-4">Office #: <span class="text-red-600"></span></p>
+                    <p class="text-2xl px-4 py-4">E-ID: <span class="text-red-600">${manager.id}</span></p>
+                    <p class="text-2xl px-4 py-4">Email: <a href="mailto:${manager.email}" class="text-red-600">${manager.email}</a></p>
+                    <p class="text-2xl px-4 py-4">Office #: <span class="text-red-600">${manager.number}</span></p>
             </div>
         </div>
     `;
+    return x;
 }
 
 const generateEngineer = function (engineer) {
-    return
+    const y =
     `
         <div class="w-96 h-96 bg-gray-100 rounded-xl shadow-xl flex flex-col">
             <div class="w-full h-24 bg-blue-800 rounded-lg flex flex-col justify-center align-center">
-                <h3 class="text-4xl text-white text-center">Kim</h3>
+                <h3 class="text-4xl text-white text-center">${engineer.name}</h3>
             </div>
             <div class="w-full flex flex-col justify-center align-center py-10">
-                    <p class="text-2xl px-4 py-4">E-ID: <span class="text-red-600"></span></p>
-                    <p class="text-2xl px-4 py-4">Email: <a href="mailto:email@example.com" class="text-red-600">Send Email</a></p>
-                    <p class="text-2xl px-4 py-4">Github: <a href="https://github.com/" class="text-red-600">Username</a></p>
+                    <p class="text-2xl px-4 py-4">E-ID: <span class="text-red-600">${engineer.id}</span></p>
+                    <p class="text-2xl px-4 py-4">Email: <a href="mailto:${engineer.email}" class="text-red-600">${engineer.email}</a></p>
+                    <p class="text-2xl px-4 py-4">Github: <a href="https://github.com/${engineer.github}" class="text-red-600">${engineer.github}</a></p>
             </div>
         </div>
     
     `;
+    return y;
 }
 
 const generateIntern = function (intern) {
-    return
+    const z =
     `
         <div class="w-96 h-96 bg-gray-100 rounded-xl shadow-xl flex flex-col">
             <div class="w-full h-24 bg-green-600 rounded-lg flex flex-col justify-center align-center">
-                <h3 class="text-4xl text-white text-center">Kim</h3>
+                <h3 class="text-4xl text-white text-center">${intern.name}</h3>
             </div>
             <div class="w-full flex flex-col justify-center align-center py-10">
-                <p class="text-2xl px-4 py-4">E-ID: <span class="text-red-600"></span></p>
-                <p class="text-2xl px-4 py-4">Email: <a href="mailto:email@example.com" class="text-red-600">Send Email</a> </p>
-                <p class="text-2xl px-4 py-4">School: <span class="text-red-600"></span></p>
+                <p class="text-2xl px-4 py-4">E-ID: <span class="text-red-600">${intern.id}</span></p>
+                <p class="text-2xl px-4 py-4">Email: <a href="mailto:${intern.email}" class="text-red-600">${intern.email}</a> </p>
+                <p class="text-2xl px-4 py-4">School: <span class="text-red-600">${intern.school}</span></p>
             </div>
         </div>
     `;
+    return z;
 }
 
 generateHTML = (data) => {
@@ -53,24 +58,24 @@ generateHTML = (data) => {
     internArray = [];
 
     for (let i = 0; i < data.length; i++) {
-        const employee = data[i];
-        const role = employee.getRole();
+        const testEmployee = data[i];
+        const role = testEmployee.getRole();
 
         if (role === 'Manager') {
-            const managerCard = generateManager(employee);
+            const managerCard = generateManager(testEmployee);
             managerArray.push(managerCard);
         }
 
         if (role === 'Engineer') {
-            const engineerCard = generateEngineer(employee);
+            const engineerCard = generateEngineer(testEmployee);
             engineerArray.push(engineerCard);
         }
 
         if (role === 'Intern') {
-            const internCard = generateIntern(employee);
+            const internCard = generateIntern(testEmployee);
             internArray.push(internCard);
         }
-    }
+    };
 
     const managerCards = managerArray.join('');
     const engineerCards = engineerArray.join('');
@@ -78,10 +83,13 @@ generateHTML = (data) => {
 
     const generateTeam = generateTeamPage(managerCards, engineerCards, internCards);
     return generateTeam;
+
+    console.log(managerCards);
+    
 }
 
 const generateTeamPage = function (managerCards, engineerCards, internCards) {
-    return
+    let htmlPage =
     `
     
     <!DOCTYPE html>
@@ -128,7 +136,7 @@ const generateTeamPage = function (managerCards, engineerCards, internCards) {
                     <h3 class="text-6xl text-red-600 text-center">Interns</h3>
                     <div class="interns py-10 px-10 w-screen flex flex-wrap justify-center gap-16">
     
-                        ${internCards}                    
+                        ${internCards}
     
                     </div>
                 </div>
@@ -138,6 +146,7 @@ const generateTeamPage = function (managerCards, engineerCards, internCards) {
     </html>
 
     `;
+    return htmlPage;
 }
 
 module.exports = generateHTML;

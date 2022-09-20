@@ -10,6 +10,7 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Employee = require('./lib/Employee');
+const { Console } = require('console');
 
 // Team Array
 const teamMembers = [];
@@ -131,27 +132,26 @@ const next = () => {
                 next();
             }) 
         } else if (data.select === 'End Setup') {
-            console.log(teamMembers);
-            teamMembers => {
-                return generateHTML(teamMembers);
-            }
-            pageHTML => {
-                return writeFile(pageHTML);
-            }     
+            //console.log(teamMembers);
+            writePage(teamMembers);
         };
     });
 };
 
-let writeFile = data => {
-    fs.writeFile('./dist/index.html', data, err => {
+const writePage = data => {
+    console.log("function is called.");
+
+    const generateHtmlPage = generateHTML(data);
+
+    console.log(generateHtmlPage);
+
+    fs.writeFile('./dist/index.html', generateHtmlPage, err => {
         if (err) {
             console.log(err);
-            return;
         } else {
-            console.log("Your team profile page is being built now. See dist folder for the index file.");
+            console.log("page was built successfully");
         }
     })
 }
-
 
 App();
